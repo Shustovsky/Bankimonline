@@ -1,7 +1,7 @@
 import * as RadixSlider from '@radix-ui/react-slider';
 import {TextInput} from "../textInput/TextInput.tsx";
 import {Label} from "../label/Label.tsx";
-import {Warning} from "../help/Warning.tsx";
+import {Warning, WarningProps} from "../warning/Warning.tsx";
 import {ReactElement} from "react";
 import {ImageProps} from "../image/Image.tsx";
 
@@ -15,7 +15,7 @@ interface SliderProps {
   max: number;
   step: number;
   tooltip?: string;
-  warning?: string;
+  warning?: WarningProps;
   minMaxLabels?: { min: string, max: string };
 }
 
@@ -58,7 +58,7 @@ export const Slider = (props: SliderProps) => {
         </div>
       )}
       {props.warning &&
-        <Warning text={props.warning}/>
+        <Warning text={props.warning.text} error={props.warning.error}/>
       }
     </div>
   );

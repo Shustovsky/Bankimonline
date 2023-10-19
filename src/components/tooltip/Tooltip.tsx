@@ -9,7 +9,7 @@ interface TooltipProps {
 export const Tooltip = (props: TooltipProps) => {
   return (
     <RadixProvider>
-      <RadixRoot>
+      <RadixRoot open={true}>
         <TooltipTrigger/>
         <TooltipContent text={props.text}/>
       </RadixRoot>
