@@ -1,14 +1,16 @@
 import React, {ReactElement} from "react";
 import {ImageProps} from "../image/Image.tsx";
+import {Label} from "../label/Label.tsx";
 
 interface TextInputProps {
-  value: string;
+  value: string | number;
   onChange: (value: string) => void;
-  placeholder: string;
   id: string;
-  label: string;
+  placeholder?: string;
+  label?: string;
   icon?: ReactElement<ImageProps>;
   className?: string;
+  tooltip?: string;
 }
 
 export const TextInput = (props: TextInputProps) => {
@@ -17,12 +19,9 @@ export const TextInput = (props: TextInputProps) => {
   };
 
   return (
-    <div className="relative w-full">
-      <label
-        className="w-full h-5 "
-        htmlFor={props.id}>
-        {props.label}
-      </label>
+    <div className="relative w-[302px] tablet:w-[277px] ">
+
+      {props.label && <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip}/>}
       <input
         id={props.id}
         value={props.value}
@@ -30,7 +29,7 @@ export const TextInput = (props: TextInputProps) => {
         placeholder={props.placeholder}
         onChange={onChange}
       />
-      <div className="absolute top-1/2 right-6 transform translate-y-[35%]">
+      <div className="absolute top-1/2 right-6 transform -translate-y-[40%]">
         {props.icon}
       </div>
     </div>
