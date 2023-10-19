@@ -1,5 +1,4 @@
-import React, {ReactElement} from "react";
-import {ImageProps} from "../image/Image.tsx";
+import {ReactSVG} from "react-svg";
 import {Label} from "../label/Label.tsx";
 
 interface TextInputProps {
@@ -8,7 +7,7 @@ interface TextInputProps {
   id: string;
   placeholder?: string;
   label?: string;
-  icon?: ReactElement<ImageProps>;
+  icon?: string;
   className?: string;
   tooltip?: string;
 }
@@ -20,7 +19,6 @@ export const TextInput = (props: TextInputProps) => {
 
   return (
     <div className="relative w-[325px] tablet:w-[363px] ">
-
       {props.label && <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip}/>}
       <div className="relative">
         <input
@@ -30,9 +28,9 @@ export const TextInput = (props: TextInputProps) => {
           placeholder={props.placeholder}
           onChange={onChange}
         />
-        <div className="absolute top-1/2 right-7 transform -translate-y-[10%]">
-          {props.icon}
-        </div>
+        {props.icon && <div className="absolute top-1/2 right-7 transform -translate-y-[10%]">
+          <ReactSVG src={props.icon}/>
+        </div>}
       </div>
     </div>
   )

@@ -1,21 +1,19 @@
 import * as RadixSlider from '@radix-ui/react-slider';
 import {TextInput} from "../textInput/TextInput.tsx";
 import {Label} from "../label/Label.tsx";
-import {Warning, WarningProps} from "../warning/Warning.tsx";
-import {ReactElement} from "react";
-import {ImageProps} from "../image/Image.tsx";
+import {Alert, AlertProps} from "../alert/alert.tsx";
 
 interface SliderProps {
   label: string;
   id: string;
   value: number[];
   setValue: (value: number[]) => void;
-  icon?: ReactElement<ImageProps>;
+  icon?: string;
   min: number;
   max: number;
   step: number;
   tooltip?: string;
-  warning?: WarningProps;
+  alert?: AlertProps;
   minMaxLabels?: { min: string, max: string };
 }
 
@@ -35,7 +33,7 @@ export const Slider = (props: SliderProps) => {
         icon={props.icon}
       />
       <RadixSlider.Root
-        className="relative flex items-center select-none touch-none w-[325px] tablet:w-[363px] h-5 bottom-[8%]"
+        className="relative flex items-center select-none touch-none w-[325px] tablet:w-[363px] h-5 bottom-[6%]"
         defaultValue={[50]}
         min={props.min}
         max={props.max}
@@ -57,8 +55,8 @@ export const Slider = (props: SliderProps) => {
           <div>{props.max + " " + props.minMaxLabels.max}</div>
         </div>
       )}
-      {props.warning &&
-        <Warning text={props.warning.text} error={props.warning.error}/>
+      {props.alert &&
+        <Alert text={props.alert.text} error={props.alert.error}/>
       }
     </div>
   );
