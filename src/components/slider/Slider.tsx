@@ -2,12 +2,15 @@ import * as RadixSlider from '@radix-ui/react-slider';
 import {TextInput} from "../textInput/TextInput.tsx";
 import {Label} from "../label/Label.tsx";
 import {Warning} from "../help/Warning.tsx";
+import {ReactElement} from "react";
+import {ImageProps} from "../image/Image.tsx";
 
 interface SliderProps {
   label: string;
   id: string;
   value: number[];
   setValue: (value: number[]) => void;
+  icon?: ReactElement<ImageProps>;
   min: number;
   max: number;
   step: number;
@@ -29,9 +32,10 @@ export const Slider = (props: SliderProps) => {
         value={props.value.join(',')}
         onChange={handleTextInputChange}
         id={props.id}
+        icon={props.icon}
       />
       <RadixSlider.Root
-        className="relative flex items-center select-none touch-none w-[325px] tablet:w-[350px] h-5 bottom-[10%]"
+        className="relative flex items-center select-none touch-none w-[325px] tablet:w-[363px] h-5 bottom-[8%]"
         defaultValue={[50]}
         min={props.min}
         max={props.max}

@@ -12,7 +12,7 @@ interface LabelProps {
 export const Label = (props: LabelProps) => {
   return (
     <RadixLabelRoot
-      className={clsx("h-5 flex gap-[6px]", props.className)}
+      className={clsx("min-h-5 flex gap-[6px] text-xl", props.className)}
       htmlFor={props.htmlFor}>
       {props.text}
       {props.tooltip &&
