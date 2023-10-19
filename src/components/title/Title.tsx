@@ -18,7 +18,7 @@ interface TitleProps {
 
 export const Title = (props: TitleProps) => {
   const levelClasses = {
-    h1: "text-5xl",
+    h1: "text-3xl tablet:text-5xl",
     h2: "text-3xl",
     h3: "text-1xl",
     h4: "text-xl",
