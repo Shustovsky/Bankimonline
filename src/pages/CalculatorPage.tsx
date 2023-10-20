@@ -45,7 +45,7 @@ export const CalculatorPage = () => {
         className="m-10 desktop:m-0"
       />
       <form
-        className="relative pt-[23px] flex justify-center flex-wrap gap-y-[2.1rem] gap-x-[5.3rem] tablet:justify-left"
+        className="relative pt-[23px] flex justify-center flex-wrap gap-y-[2.1rem] gap-x-[5.3rem] tablet:justify-start"
         onSubmit={(e) => {
           e.preventDefault();
           formik.handleSubmit(e);

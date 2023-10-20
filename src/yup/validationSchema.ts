@@ -12,7 +12,7 @@ export const validationSchema = Yup.object().shape({
     .test('is-negative', 'Стоимость недвижимости не может превышать 10,000,000', (value: string | undefined) => {
       if (value) {
         const numericValue = parseCurrencyToNumber(value);
-        return numericValue < 10000000;
+        return numericValue <= 10000000;
       }
     })
     .required('Введите значение'),
