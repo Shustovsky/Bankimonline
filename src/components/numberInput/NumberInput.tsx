@@ -35,10 +35,7 @@ export const NumberInput = (props: NumberInputProps) => {
             props.className,
           )}
           placeholder={props.placeholder}
-          onValueChange={(values) => {
-            console.log(values);
-            props.onChange(values.floatValue);
-          }}
+          onValueChange={(values) => props.onChange(values.floatValue)}
         />
         {props.icon && (
           <div className="absolute top-1/2 right-[1.5rem] transform -translate-y-[32%]">

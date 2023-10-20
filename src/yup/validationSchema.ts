@@ -1,94 +1,62 @@
 import { parseCurrencyToNumber } from "../utils/utils.tsx";
 import * as Yup from "yup";
 
+const MAX_COST_PROPERTY = 10000000;
+const MIN_PERIOD_CREDIT = 4;
+const MAX_PERIOD_CREDIT = 30;
+
 export const validationSchema = Yup.object().shape({
-  propertyCost: Yup.string()
-    .test(
-      "is-positive",
-      "Стоимость недвижимости должна быть больше нуля",
-      (value: string | undefined) => {
-        if (value) {
-          const numericValue = parseCurrencyToNumber(value);
-          return numericValue > 0;
-        }
-      },
-    )
-    .test(
-      "is-negative",
+  propertyCost: Yup.number()
+    .min(0, "Стоимость недвижимости должна быть больше нуля")
+    .max(
+      MAX_COST_PROPERTY,
       "Стоимость недвижимости не может превышать 10,000,000",
-      (value: string | undefined) => {
-        const MAX_COAST_CURRENCY = 10000000;
-        if (value) {
-          const numericValue = parseCurrencyToNumber(value);
-          return numericValue <= MAX_COAST_CURRENCY;
-        }
-      },
     )
     .required("Введите значение"),
   purchaseCity: Yup.string().required("Выберите ответ"),
   timeRegistration: Yup.string().required("Выберите ответ"),
-  initialPayment: Yup.string()
+  initialPayment: Yup.number()
+    .min(0, "Стоимость недвижимости должна быть больше нуля")
     .test(
       "no-more",
       "Сумма первоначального взноса не может быть меньше 25% от стоимости недвижимости",
-      function (value: string | undefined) {
-        const minimumInitialPaymentPercentage = 0.25;
+      function (value: number | undefined) {
         if (value) {
-          const numericValue = parseCurrencyToNumber(value);
-          const propertyCost = parseCurrencyToNumber(this.parent.propertyCost);
-          return numericValue >= minimumInitialPaymentPercentage * propertyCost;
+          const minimumInitialPaymentPercentage = 0.25;
+          const propertyCost = this.parent.propertyCost;
+          return value >= minimumInitialPaymentPercentage * propertyCost;
         }
       },
     )
     .required("Выберите ответ"),
   propertyType: Yup.string().required("Выберите ответ"),
   propertyOwn: Yup.string().required("Выберите ответ"),
-  period: Yup.string()
-    .test(
-      "no-more-time",
-      "Cрок ипотеки не может превышать 30 лет",
-      function (value: string | undefined) {
-        const MAX_CREDIT_YEARS = 30;
-        if (value) {
-          const numericValue = parseCurrencyToNumber(value);
-          return numericValue <= MAX_CREDIT_YEARS;
-        }
-      },
-    )
-    .test(
-      "more-than-zero",
-      "Cрок ипотеки не может быть меньше 4",
-      function (value: string | undefined) {
-        const MIN_CREDIT_YEARS = 4;
-        if (value) {
-          const numericValue = parseCurrencyToNumber(value);
-          return numericValue >= MIN_CREDIT_YEARS;
-        }
-      },
-    )
+  period: Yup.number()
+    .min(MIN_PERIOD_CREDIT, "Cрок ипотеки не может быть меньше 4")
+    .max(30, "Cрок ипотеки не может превышать 30 лет")
     .required("Выберите ответ"),
-  monthlyPayment: Yup.string()
-    .test(
-      "is-minimum-value",
-      "Не может быть меньше минимального значения",
-      function (value: string | undefined) {
-        const MIN_VALUE = 2654;
-        if (value) {
-          const numericValue = parseCurrencyToNumber(value);
-          return numericValue >= MIN_VALUE;
-        }
-      },
-    )
-    .test(
-      "is-maximum-value",
-      "Не может быть больше максимального значения",
-      function (value: string | undefined) {
-        if (value) {
-          const MAX_VALUE = 51130;
-          const numericValue = parseCurrencyToNumber(value);
-          return numericValue <= MAX_VALUE;
-        }
-      },
-    )
-    .required("Выберите ответ"),
+  // monthlyPayment: Yup.string()
+  // .test(
+  //   "is-minimum-value",
+  //   "Не может быть меньше минимального значения",
+  //   function (value: string | undefined) {
+  //     const MIN_VALUE = 2654;
+  //     if (value) {
+  //       const numericValue = parseCurrencyToNumber(value);
+  //       return numericValue >= MIN_VALUE;
+  //     }
+  //   },
+  // )
+  // .test(
+  //   "is-maximum-value",
+  //   "Не может быть больше максимального значения",
+  //   function (value: string | undefined) {
+  //     if (value) {
+  //       const MAX_VALUE = 51130;
+  //       const numericValue = parseCurrencyToNumber(value);
+  //       return numericValue <= MAX_VALUE;
+  //     }
+  //   },
+  // )
+  // .required("Выберите ответ"),
 });

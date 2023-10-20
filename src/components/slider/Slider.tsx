@@ -1,4 +1,4 @@
-import { Alert } from "../alert/alert.tsx";
+import {Alert, AlertProps} from "../alert/alert.tsx";
 import { Label } from "../label/Label.tsx";
 import { NumberInput } from "../numberInput/NumberInput.tsx";
 import * as RadixSlider from "@radix-ui/react-slider";
@@ -16,6 +16,7 @@ interface SliderProps {
   max: number;
   step: number;
   tooltip?: string;
+  alert?: AlertProps;
   minMaxLabels?: { min: string; max: string };
   error?: string | undefined | false;
 }
@@ -59,6 +60,9 @@ export const Slider = (props: SliderProps) => {
           <div>{props.min + " " + props.minMaxLabels.min}</div>
           <div>{props.max + " " + props.minMaxLabels.max}</div>
         </div>
+      )}
+      {props.alert && (
+        <Alert text={props.alert.text} error={props.alert.error} />
       )}
       {props.error && <Alert text={props.error} error />}
     </div>

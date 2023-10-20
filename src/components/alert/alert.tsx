@@ -12,7 +12,7 @@ export const Alert = (props: AlertProps) => {
     <div
       className={clsx(
         "text-sm bg-[#242529] flex gap-1 pt-[3px] px-3 rounded w-[325px] whitespace-pre-wrap",
-        { ["bg-[#E76143] mt-3 py-[6px]"]: props.error },
+        { "bg-[#E76143] mt-3 mb-3 py-[6px]": props.error },
       )}
     >
       <div className="w-4 h-4">
