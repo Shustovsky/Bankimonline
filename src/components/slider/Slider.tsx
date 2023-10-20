@@ -34,9 +34,10 @@ export const Slider = (props: SliderProps) => {
         id={props.id}
         icon={props.icon}
         onChange={(e) => props.setValue(parseCurrencyToNumber(e.target.value))}
+        className={props.error ? "border-[#E76143]" : ""}
       />
       <RadixSlider.Root
-        className="relative flex items-center select-none touch-none w-[325px] tablet:w-[363px] h-5 bottom-[6%]"
+        className="relative flex items-center select-none touch-none w-[325px] tablet:w-[363px] h-5 bottom-[5%]"
         defaultValue={[50]}
         min={props.min}
         max={props.max}

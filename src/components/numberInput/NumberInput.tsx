@@ -3,6 +3,7 @@ import {NumericFormat} from 'react-number-format';
 import {ReactSVG} from "react-svg";
 import {Label} from "../label/Label.tsx";
 import {Alert} from "../alert/alert.tsx";
+import {clsx} from "clsx";
 
 interface NumberInputProps {
   id: string;
@@ -27,7 +28,7 @@ export const NumberInput = (props: NumberInputProps) => {
           name={props.name}
           value={props.value}
           thousandSeparator=","
-          className="h-[58px] border border-solid border-[#333535] bg-[#2a2b31] pl-6 pr-14 py-3 mt-5 rounded w-full text-2xl [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          className={clsx("h-[58px] border border-solid border-[#333535] bg-[#2a2b31] pl-6 pr-14 py-3 mt-5 rounded w-full text-2xl [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none", { ["border-[#E76143]"]: props.error }, props.className)}
           placeholder={props.placeholder}
           onChange={props.onChange}
         />

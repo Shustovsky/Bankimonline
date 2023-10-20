@@ -43,5 +43,18 @@ export const validationSchema = Yup.object().shape({
       }
     })
     .required('Выберите ответ'),
-  monthlyPayment: Yup.string().required('Выберите ответ'),
+  monthlyPayment: Yup.string()
+    .test('more-than-zero', 'Не может быть меньше минимального значения', function (value: string | undefined) {
+      if (value) {
+        const numericValue = parseCurrencyToNumber(value);
+        return numericValue > 2654;
+      }
+    })
+    .test('more-than-zero', 'Не может быть больше максимального значения', function (value: string | undefined) {
+      if (value) {
+        const numericValue = parseCurrencyToNumber(value);
+        return numericValue < 51130;
+      }
+    })
+    .required('Выберите ответ'),
 });

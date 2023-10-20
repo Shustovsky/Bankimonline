@@ -7,6 +7,7 @@ import {DropdownSearch} from "./dropdownSearch/DropdownSearch.tsx";
 import {Label} from "../label/Label.tsx";
 import CaretDown from "../../assets/icons/caretDown.svg";
 import {Alert} from "../alert/alert.tsx";
+import {clsx} from "clsx";
 
 interface DropdownProps {
   id: string;
@@ -43,9 +44,9 @@ export const Dropdown = (props: DropdownProps) => {
       <div className="relative w-[325px] tablet:w-[363px]">
         <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip}/>
         <Select.Trigger
-          className=" text-xl border-solid border-[#333535] bg-[#2a2b31] flex flex-row justify-between w-full h-[58px] mt-[1.1rem] items-center px-6 border rounded overflow-hidden whitespace-nowrap"
+          className={clsx("text-xl border-solid border-[#333535] bg-[#2a2b31] flex flex-row justify-between w-full h-[58px] mt-[1.1rem] items-center px-6 border rounded overflow-hidden whitespace-nowrap", { ["border-[#E76143]"]: props.error })}
         >
-          <Select.Value  aria-label={props.value} placeholder={props.placeholder}/>
+          <Select.Value aria-label={props.value} placeholder={props.placeholder}/>
           <Select.Icon className="shrink-0">
             <ReactSVG src={CaretDown}/>
           </Select.Icon>
