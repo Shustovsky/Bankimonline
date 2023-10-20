@@ -25,6 +25,7 @@ interface DropdownProps {
 
 export const Dropdown = (props: DropdownProps) => {
   const [searchValue, setSearchValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const filteredOptions = props.searchable
     ? props.options.filter((option) =>
@@ -37,7 +38,11 @@ export const Dropdown = (props: DropdownProps) => {
   };
 
   return (
-    <Select.Root value={props.value} onValueChange={props.setValue}>
+    <Select.Root
+      value={props.value}
+      onValueChange={props.setValue}
+      onOpenChange={setIsOpen}
+    >
       <div className={clsx("relative w-[325px]", props.className)}>
         {props.label && (
           <Label
@@ -49,7 +54,7 @@ export const Dropdown = (props: DropdownProps) => {
         <Select.Trigger
           className={clsx(
             "text-xl border-solid border-[#333535] bg-[#2a2b31] flex flex-row justify-between w-full h-[51px] " +
-              "mt-[0.5rem] items-center px-6 border rounded overflow-hidden whitespace-nowrap",
+              "mt-[0.5rem] items-center px-6 border rounded overflow-hidden whitespace-nowrap text-ellipsis",
             { ["border-[#E76143]"]: props.error },
           )}
         >
@@ -57,7 +62,12 @@ export const Dropdown = (props: DropdownProps) => {
             aria-label={props.value}
             placeholder={props.placeholder}
           />
-          <Select.Icon className="shrink-0">
+          <Select.Icon
+            className={clsx(
+              "shrink-0",
+              isOpen ? "transform rotate-180 transition delay-800" : "transform rotate-0 transition delay-800",
+            )}
+          >
             <ReactSVG src={CaretDown} />
           </Select.Icon>
         </Select.Trigger>

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { israeliCities } from "../assets/data/israeliCities.ts";
 import currencies from "../assets/icons/currencies.svg";
+import { Alert } from "../components/alert/alert.tsx";
 import { Button } from "../components/button/Button.tsx";
 import { Divider } from "../components/divider/Divider.tsx";
 import { Dropdown } from "../components/dropdown/Dropdown.tsx";
@@ -88,31 +89,35 @@ export const CalculatorPage = () => {
               id="property-coast"
               name="propertyCost"
               value={formik.values.propertyCost}
-              onChange={formik.handleChange}
+              onChange={(value) => handleSetValue("propertyCost", value)}
               placeholder="1,000,000"
               label="Стоимость недвижимости"
               icon={currencies}
               error={formik.errors.propertyCost}
             />
-            <Slider
-              id="initial-payment"
-              name="initialPayment"
-              className={"mobile:order-2 tablet:order-4 desktop:order-4"}
-              label="Первоначальный взнос"
-              value={formik.values.initialPayment}
-              setValue={(value) => handleSetValue("initialPayment", value)}
-              icon={currencies}
-              min={0}
-              max={newInitialPaymentMax}
-              step={100}
-              tooltip={`Основная квартира: у заемщика нет квартиры ставка финансирования.\nМаксимум до 75% \n\n Альтернативная квартира: Для заемщика квартира, которую он обязуется продать в течение двух лет ставка финансирования Максимум до 70% \n\n Вторая квартира или выше: у заемщика уже есть ставка финансирования квартиры. Максимум до 50%`}
-              alert={{
-                text: `Cумма финансирования:500,000 ₪ \nПроцент финансирования:50%`,
-              }}
-              error={
-                formik.touched.initialPayment && formik.errors.initialPayment
-              }
-            />
+            <div>
+              <Slider
+                id="initial-payment"
+                name="initialPayment"
+                className={"mobile:order-2 tablet:order-4 desktop:order-4"}
+                label="Первоначальный взнос"
+                value={formik.values.initialPayment}
+                setValue={(value) => handleSetValue("initialPayment", value)}
+                icon={currencies}
+                min={0}
+                max={newInitialPaymentMax}
+                step={100}
+                tooltip={`Основная квартира: у заемщика нет квартиры ставка финансирования.\nМаксимум до 75% \n\n Альтернативная квартира: Для заемщика квартира, которую он обязуется продать в течение двух лет ставка финансирования Максимум до 70% \n\n Вторая квартира или выше: у заемщика уже есть ставка финансирования квартиры. Максимум до 50%`}
+                error={
+                  formik.touched.initialPayment && formik.errors.initialPayment
+                }
+              />
+              <Alert
+                text={
+                  "Cумма финансирования:500,000 ₪ \nПроцент финансирования:50%"
+                }
+              />
+            </div>
             <Dropdown
               id="purchase-city"
               name="purchaseCity"
@@ -197,24 +202,26 @@ export const CalculatorPage = () => {
               minMaxLabels={{ min: "года", max: "лет" }}
               error={formik.touched.period && formik.errors.period}
             />
-            <Slider
-              id="monthly-payment"
-              name="monthlyPayment"
-              label="Ежемесячный платеж"
-              value={formik.values.monthlyPayment}
-              setValue={(value) => handleSetValue("monthlyPayment", value)}
-              icon={currencies}
-              min={2654}
-              max={51130}
-              step={1}
-              minMaxLabels={{ min: "₪", max: "₪" }}
-              alert={{
-                text: `Увеличьте ежемесячный платеж и \n переплачивайте меньше`,
-              }}
-              error={
-                formik.touched.monthlyPayment && formik.errors.monthlyPayment
-              }
-            />
+            <div>
+              <Slider
+                id="monthly-payment"
+                name="monthlyPayment"
+                label="Ежемесячный платеж"
+                value={formik.values.monthlyPayment}
+                setValue={(value) => handleSetValue("monthlyPayment", value)}
+                icon={currencies}
+                min={2654}
+                max={51130}
+                step={1}
+                minMaxLabels={{ min: "₪", max: "₪" }}
+                error={
+                  formik.touched.monthlyPayment && formik.errors.monthlyPayment
+                }
+              />
+              <Alert
+                text={"Увеличьте ежемесячный платеж и \n переплачивайте меньше"}
+              />
+            </div>
           </div>
           <Divider fullScreenSize />
           <div className="flex mobile:justify-center tablet:justify-end py-8 mobile:mt-[32px]">
