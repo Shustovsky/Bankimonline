@@ -6,8 +6,7 @@ export const creditMiddleware = createListenerMiddleware();
 
 creditMiddleware.startListening({
   matcher: creditApi.endpoints?.addCredit.matchPending,
-  effect: async ({ payload}) => {
-    console.log(payload);
-    localStorage.setItem(CREDIT_LOCAL_STORAGE_KEY, JSON.stringify(payload));
+  effect: async (action) => {
+    localStorage.setItem(CREDIT_LOCAL_STORAGE_KEY, JSON.stringify(action.meta.arg.originalArgs));
   },
 });
