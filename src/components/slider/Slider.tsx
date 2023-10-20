@@ -3,10 +3,12 @@ import { Alert, AlertProps } from "../alert/alert.tsx";
 import { Label } from "../label/Label.tsx";
 import { NumberInput } from "../numberInput/NumberInput.tsx";
 import * as RadixSlider from "@radix-ui/react-slider";
+import { clsx } from "clsx";
 
 interface SliderProps {
   id: string;
   name: string;
+  className?: string;
   label: string;
   value: number;
   setValue: (value: number) => void;
@@ -22,7 +24,7 @@ interface SliderProps {
 
 export const Slider = (props: SliderProps) => {
   return (
-    <div>
+    <div className={clsx("w-[325px]", props.className)}>
       <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip} />
       <NumberInput
         name={props.name}
@@ -33,7 +35,7 @@ export const Slider = (props: SliderProps) => {
         className={props.error ? "border-[#E76143]" : ""}
       />
       <RadixSlider.Root
-        className="relative flex items-center select-none touch-none w-[325px] tablet:w-[363px] h-5 bottom-[5%]"
+        className="relative flex items-center select-none touch-none w-full h-5 bottom-[5%]"
         min={props.min}
         max={props.max}
         step={props.step}

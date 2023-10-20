@@ -21,10 +21,10 @@ export default {
       fontSize: {
         sm: '0.8rem',
         base: '1rem',
-        xl: '1.17rem',
-        '2xl': '1.5rem',
+        xl: '1.04rem',
+        '2xl': '1.4rem',
         '3xl': '1.953rem',
-        '5xl': '3.34rem',
+        '5xl': '3rem',
       },
       extend: {},
     },

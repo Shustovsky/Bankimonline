@@ -12,6 +12,7 @@ import { clsx } from "clsx";
 interface DropdownProps {
   id: string;
   name: string;
+  className?: string;
   placeholder: string;
   label: string;
   options: string[];
@@ -37,11 +38,12 @@ export const Dropdown = (props: DropdownProps) => {
 
   return (
     <Select.Root value={props.value} onValueChange={props.setValue}>
-      <div className="relative w-[325px] tablet:w-[363px]">
+      <div className={clsx("relative w-[325px]", props.className)}>
         <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip} />
         <Select.Trigger
           className={clsx(
-            "text-xl border-solid border-[#333535] bg-[#2a2b31] flex flex-row justify-between w-full h-[58px] mt-[1.1rem] items-center px-6 border rounded overflow-hidden whitespace-nowrap",
+            "text-xl border-solid border-[#333535] bg-[#2a2b31] flex flex-row justify-between w-full h-[51px] " +
+              "mt-[0.5rem] items-center px-6 border rounded overflow-hidden whitespace-nowrap",
             { ["border-[#E76143]"]: props.error },
           )}
         >
@@ -56,7 +58,7 @@ export const Dropdown = (props: DropdownProps) => {
         <Select.Portal>
           <Select.Content position="popper">
             <ScrollArea.Root className="w-full h-full" type="auto">
-              <Select.Group className="mt-2 max-h-48 overflow-y-auto border border-[#333535] bg-[#242529] pb-2 px-4 rounded-lg text-white flex flex-col justify-between w-[325px] tablet:w-[363px] cursor-pointer">
+              <Select.Group className="mt-2 max-h-48 overflow-y-auto border border-[#333535] bg-[#242529] pb-2 px-4 rounded-lg text-white flex flex-col justify-between w-[325px] cursor-pointer">
                 {props.searchable && (
                   <DropdownSearch
                     searchValue={searchValue}
