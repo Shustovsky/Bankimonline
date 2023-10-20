@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import {useFormik} from 'formik';
 import {HeadingLevel, Title} from "../components/title/Title.tsx";
 import {NumberInput} from "../components/numberInput/NumberInput.tsx";
@@ -9,8 +10,13 @@ import {Divider} from "../components/divider/Divider.tsx";
 import {Button} from "../components/button/Button.tsx";
 import {validationSchema} from "../yup/validationSchema.ts";
 import {parseCurrencyToNumber} from "../utils/utils.tsx";
+import {RootState} from "../store/store.ts";
+import {updateFormData} from "../store/reducers/formSlice.ts";
 
 export const CalculatorPage = () => {
+  const dispatch = useDispatch();
+  const formValues = useSelector((state: RootState) => state.form);
+
   const formik = useFormik({
     initialValues: {
       propertyCost: 1000000,
@@ -24,8 +30,10 @@ export const CalculatorPage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      dispatch(updateFormData(values));
       localStorage.setItem("calculatorData", JSON.stringify(values));
       alert(JSON.stringify(values, null, 2));
+      console.log(formValues, "redux")
     },
   });
 
