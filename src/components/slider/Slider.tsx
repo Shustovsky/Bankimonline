@@ -2,7 +2,7 @@ import * as RadixSlider from '@radix-ui/react-slider';
 import {NumberInput} from "../numberInput/NumberInput.tsx";
 import {Label} from "../label/Label.tsx";
 import {Alert, AlertProps} from "../alert/alert.tsx";
-import {removeCommasAndParseToNumber} from "../../utils/utils.tsx";
+import {parseCurrencyToNumber} from "../../utils/utils.tsx";
 
 interface SliderProps {
   id: string;
@@ -17,7 +17,7 @@ interface SliderProps {
   tooltip?: string;
   alert?: AlertProps;
   minMaxLabels?: { min: string, max: string };
-  error?: string;
+  error?: string | undefined | false;
 }
 
 export const Slider = (props: SliderProps) => {
@@ -33,7 +33,7 @@ export const Slider = (props: SliderProps) => {
         value={props.value}
         id={props.id}
         icon={props.icon}
-        onChange={(e) => props.setValue(removeCommasAndParseToNumber(e.target.value))}
+        onChange={(e) => props.setValue(parseCurrencyToNumber(e.target.value))}
       />
       <RadixSlider.Root
         className="relative flex items-center select-none touch-none w-[325px] tablet:w-[363px] h-5 bottom-[6%]"
@@ -66,7 +66,6 @@ export const Slider = (props: SliderProps) => {
         <Alert text={props.alert.text} error={props.alert.error}/>
       }
       {props.error && <Alert text={props.error} error/>}
-      <h3>{props.value}</h3>
     </div>
   );
 };

@@ -14,7 +14,7 @@ interface NumberInputProps {
   icon?: string;
   className?: string;
   tooltip?: string;
-  error?: string;
+  error?: string | undefined | false;
 }
 
 export const NumberInput = (props: NumberInputProps) => {
