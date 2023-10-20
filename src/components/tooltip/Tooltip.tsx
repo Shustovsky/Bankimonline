@@ -1,5 +1,5 @@
 import { TooltipContent } from "./tooltipContent/TooltipContent.tsx";
-import { TooltipTrigger } from "./tooltipTrigger/tooltipTrigger.tsx";
+import {TooltipTrigger} from "./tooltipTrigger/TooltipTrigger.tsx";
 import {
   Provider as RadixProvider,
   Root as RadixRoot,

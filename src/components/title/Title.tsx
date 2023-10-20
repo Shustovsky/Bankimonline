@@ -1,5 +1,5 @@
-import {Heading} from "@radix-ui/themes";
-import {clsx} from "clsx";
+import { Heading } from "@radix-ui/themes";
+import { clsx } from "clsx";
 
 export enum HeadingLevel {
   h1 = "h1",
@@ -16,20 +16,20 @@ interface TitleProps {
   text: string;
 }
 
-export const Title = (props: TitleProps) => {
-  const levelClasses = {
-    h1: "text-3xl tablet:text-5xl",
-    h2: "text-3xl",
-    h3: "text-1xl",
-    h4: "text-xl",
-    h5: "text-base",
-    h6: "text-xs",
-  };
+const mapperClassesByType = {
+  h1: "text-3xl tablet:text-5xl",
+  h2: "text-3xl",
+  h3: "text-1xl",
+  h4: "text-xl",
+  h5: "text-base",
+  h6: "text-xs",
+};
 
+export const Title = (props: TitleProps) => {
   return (
     <Heading
       as={props.level}
-      className={clsx(levelClasses[props.level], props.className)}
+      className={clsx(mapperClassesByType[props.level], props.className)}
     >
       {props.text}
     </Heading>

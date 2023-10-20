@@ -10,7 +10,6 @@ import { Slider } from "../components/slider/Slider.tsx";
 import { HeadingLevel, Title } from "../components/title/Title.tsx";
 import { updateFormData } from "../store/reducers/formSlice.ts";
 import { RootState } from "../store/store.ts";
-import { parseCurrencyToNumber } from "../utils/utils.tsx";
 import { validationSchema } from "../yup/validationSchema.ts";
 import { useFormik } from "formik";
 
@@ -37,27 +36,27 @@ export const CalculatorPage = () => {
     },
   });
 
-  const newInitialPaymentMax = parseCurrencyToNumber(
-    formik.values.propertyCost,
-  );
+  const handleSetValue = (
+    fieldName: string,
+    value: string | number | undefined,
+  ) => {
+    formik.setTouched({ [fieldName]: true });
+    formik.setFieldValue(fieldName, value);
+  };
 
-  if (parseCurrencyToNumber(formik.values.propertyCost) > 0) {
-    if (
-      parseCurrencyToNumber(formik.values.propertyCost) <
-      parseCurrencyToNumber(formik.values.initialPayment)
-    ) {
-      formik.setFieldValue(
-        "initialPayment",
-        parseCurrencyToNumber(formik.values.propertyCost),
-      );
+  const newInitialPaymentMax = formik.values.propertyCost;
+
+  useEffect(() => {
+    if (formik.values.propertyCost > 0) {
+      if (formik.values.propertyCost < formik.values.initialPayment) {
+        formik.setFieldValue("initialPayment", formik.values.propertyCost);
+      }
     }
-  }
+  }, [formik.values.propertyCost]);
 
   useEffect(() => {
     const MONTH_IN_YEAR = 12;
-    const paymentInYear =
-      parseCurrencyToNumber(formik.values.propertyCost) /
-      parseCurrencyToNumber(formik.values.period);
+    const paymentInYear = formik.values.propertyCost / formik.values.period;
     const paymentInMonth = paymentInYear / MONTH_IN_YEAR;
     const magicNumber = 124;
     const ceil = Math.ceil(paymentInMonth - magicNumber);
@@ -67,7 +66,7 @@ export const CalculatorPage = () => {
 
   return (
     <div className="w-full h-[100%] pt-32 bg-[#161616] text-white flex justify-center overflow-hidden">
-      <div className="w-[1130px] mobile:mx-[20px] mobile:leading-normal tablet:mx-[62px] desktop:mx-0">
+      <div className="w-[1138px] mobile:mx-[20px] mobile:leading-normal tablet:mx-[62px] desktop:mx-0">
         <Title
           level={HeadingLevel.h1}
           text={"Рассчитайте ипотеку быстро и просто"}
@@ -82,8 +81,8 @@ export const CalculatorPage = () => {
           <div
             className="relative pt-[23px] flex flex-col flex-wrap
                        mobile:gap-y-[2.1rem] mobile:content-center mobile:mt-3
-                       tablet:pt-[9px] tablet:h-[532px] tablet:gap-y-[1.7rem] tablet:gap-x-[4.1rem] tablet:content-start
-                       desktop:pt-[9px]  desktop:h-[300px] desktop:gap-y-[2.1rem] desktop:gap-x-0 desktop:content-between "
+                       tablet:h-auto tablet:flex-row tablet:pt-[9px] tablet:gap-y-[1.7rem] tablet:gap-x-[4.1rem] tablet:content-start
+                       desktop:h-auto desktop:pt-[9px] desktop:mb-[2.1rem] desktop:flex-row desktop:gap-y-[2.1rem] desktop:gap-x-[5rem]"
           >
             <NumberInput
               id="property-coast"
@@ -98,13 +97,10 @@ export const CalculatorPage = () => {
             <Slider
               id="initial-payment"
               name="initialPayment"
-              className={"mobile:order-2 tablet:order-3 desktop:order-none"}
+              className={"mobile:order-2 tablet:order-4 desktop:order-4"}
               label="Первоначальный взнос"
               value={formik.values.initialPayment}
-              setValue={(value: number) => {
-                formik.setTouched({ ...formik.touched, initialPayment: true });
-                formik.setFieldValue("initialPayment", value);
-              }}
+              setValue={(value) => handleSetValue("initialPayment", value)}
               icon={currencies}
               min={0}
               max={newInitialPaymentMax}
@@ -120,13 +116,10 @@ export const CalculatorPage = () => {
             <Dropdown
               id="purchase-city"
               name="purchaseCity"
-              className={"mobile:order-6 tablet:order-5 desktop:order-none"}
+              className={"mobile:order-6 tablet:order-2 desktop:order-2"}
               label="Город покупки недвижимости"
               value={formik.values.purchaseCity}
-              setValue={(value: string) => {
-                formik.setTouched({ ...formik.touched, purchaseCity: true });
-                formik.setFieldValue("purchaseCity", value);
-              }}
+              setValue={(value) => handleSetValue("purchaseCity", value)}
               placeholder="Выберите город"
               options={israeliCities}
               searchable
@@ -135,15 +128,10 @@ export const CalculatorPage = () => {
             <Dropdown
               id="property-type"
               name="propertyType"
-              className={
-                "mobile:order-3 tablet:order-6 desktop:order-none tablet:mt-28 desktop:mt-0"
-              }
+              className={"mobile:order-3 tablet:order-6 desktop:order-5"}
               label="Тип недвижимости"
               value={formik.values.propertyType}
-              setValue={(value: string) => {
-                formik.setTouched({ ...formik.touched, propertyType: true });
-                formik.setFieldValue("propertyType", value);
-              }}
+              setValue={(value) => handleSetValue("propertyType", value)}
               placeholder="Выберите тип недвижимости"
               options={[
                 "Квартира от застройщика",
@@ -157,16 +145,10 @@ export const CalculatorPage = () => {
             <Dropdown
               id="time-registration"
               name="timeRegistration"
-              className={"mobile:order-4 tablet:order-2 desktop:order-none"}
+              className={"mobile:order-4 tablet:order-3 desktop:order-3"}
               label="Когда вы планируете оформить ипотеку?"
               value={formik.values.timeRegistration}
-              setValue={(value: string) => {
-                formik.setTouched({
-                  ...formik.touched,
-                  timeRegistration: true,
-                });
-                formik.setFieldValue("timeRegistration", value);
-              }}
+              setValue={(value) => handleSetValue("timeRegistration", value)}
               placeholder="Выберите период"
               options={[
                 "В ближайший месяц",
@@ -184,13 +166,10 @@ export const CalculatorPage = () => {
             <Dropdown
               id="property-own"
               name="propertyOwn"
-              className={"mobile:order-5 tablet:order-4 desktop:order-none"}
+              className={"mobile:order-5 tablet:order-6 desktop:order-6"}
               label="Вы уже владеете недвижимостью?"
               value={formik.values.propertyOwn}
-              setValue={(value: string) => {
-                formik.setTouched({ ...formik.touched, propertyOwn: true });
-                formik.setFieldValue("propertyOwn", value);
-              }}
+              setValue={(value) => handleSetValue("propertyOwn", value)}
               placeholder="Выберите ответ"
               options={[
                 "Нет, я пока не владею недвижимостью",
@@ -201,16 +180,17 @@ export const CalculatorPage = () => {
             />
           </div>
           <Divider />
-          <div className={"relative mobile:my-[32px] tablet:flex-row mobile:justify-center mobile:items-center tablet:mt-[20px] desktop:mt-[38px] desktop:mb-12 desktop:gap-x-16 flex flex-wrap mobile:flex-col tablet:mb-14 tablet:gap-x-16"}>
+          <div
+            className={
+              "relative mobile:my-[32px] tablet:flex-row mobile:justify-center tablet:justify-start mobile:items-center desktop:items-start tablet:mt-[20px] desktop:mt-[38px] desktop:mb-12 desktop:gap-x-16 flex flex-wrap mobile:flex-col tablet:mb-14 tablet:gap-x-16"
+            }
+          >
             <Slider
               id="period"
               name="period"
               label="Cрок"
               value={formik.values.period}
-              setValue={(value: number) => {
-                formik.setTouched({ ...formik.touched, period: true });
-                formik.setFieldValue("period", value);
-              }}
+              setValue={(value) => handleSetValue("period", value)}
               min={4}
               max={30}
               step={1}
@@ -222,10 +202,7 @@ export const CalculatorPage = () => {
               name="monthlyPayment"
               label="Ежемесячный платеж"
               value={formik.values.monthlyPayment}
-              setValue={(value: number) => {
-                formik.setTouched({ ...formik.touched, monthlyPayment: true });
-                formik.setFieldValue("monthlyPayment", value);
-              }}
+              setValue={(value) => handleSetValue("monthlyPayment", value)}
               icon={currencies}
               min={2654}
               max={51130}

@@ -1,4 +1,3 @@
-import { ChangeEventHandler } from "react";
 import { NumericFormat } from "react-number-format";
 import { ReactSVG } from "react-svg";
 import { Alert } from "../alert/alert.tsx";
@@ -9,7 +8,7 @@ interface NumberInputProps {
   id: string;
   name: string;
   value: number;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange: (values: number | undefined) => void;
   placeholder?: string;
   label?: string;
   icon?: string;
@@ -36,7 +35,10 @@ export const NumberInput = (props: NumberInputProps) => {
             props.className,
           )}
           placeholder={props.placeholder}
-          onChange={props.onChange}
+          onValueChange={(values) => {
+            console.log(values);
+            props.onChange(values.floatValue);
+          }}
         />
         {props.icon && (
           <div className="absolute top-1/2 right-[1.5rem] transform -translate-y-[32%]">

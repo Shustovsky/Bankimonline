@@ -14,7 +14,7 @@ interface DropdownProps {
   name: string;
   className?: string;
   placeholder: string;
-  label: string;
+  label?: string;
   options: string[];
   value: string;
   setValue: (value: string) => void;
@@ -39,7 +39,13 @@ export const Dropdown = (props: DropdownProps) => {
   return (
     <Select.Root value={props.value} onValueChange={props.setValue}>
       <div className={clsx("relative w-[325px]", props.className)}>
-        <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip} />
+        {props.label && (
+          <Label
+            htmlFor={props.id}
+            text={props.label}
+            tooltip={props.tooltip}
+          />
+        )}
         <Select.Trigger
           className={clsx(
             "text-xl border-solid border-[#333535] bg-[#2a2b31] flex flex-row justify-between w-full h-[51px] " +

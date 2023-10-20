@@ -1,4 +1,3 @@
-import { parseCurrencyToNumber } from "../../utils/utils.tsx";
 import { Alert, AlertProps } from "../alert/alert.tsx";
 import { Label } from "../label/Label.tsx";
 import { NumberInput } from "../numberInput/NumberInput.tsx";
@@ -9,9 +8,9 @@ interface SliderProps {
   id: string;
   name: string;
   className?: string;
-  label: string;
+  label?: string;
   value: number;
-  setValue: (value: number) => void;
+  setValue: (value: number | undefined) => void;
   icon?: string;
   min: number;
   max: number;
@@ -25,13 +24,15 @@ interface SliderProps {
 export const Slider = (props: SliderProps) => {
   return (
     <div className={clsx("w-[325px]", props.className)}>
-      <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip} />
+      {props.label && (
+        <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip} />
+      )}
       <NumberInput
         name={props.name}
         value={props.value}
         id={props.id}
         icon={props.icon}
-        onChange={(e) => props.setValue(parseCurrencyToNumber(e.target.value))}
+        onChange={props.setValue}
         className={props.error ? "border-[#E76143]" : ""}
       />
       <RadixSlider.Root
