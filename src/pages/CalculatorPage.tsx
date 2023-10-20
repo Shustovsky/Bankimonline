@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { israeliCities } from "../assets/data/israeliCities.ts";
 import currencies from "../assets/icons/currencies.svg";
@@ -36,6 +37,7 @@ export const CalculatorPage = () => {
     },
   });
 
+
   const newInitialPaymentMax = parseCurrencyToNumber(
     formik.values.propertyCost,
   );
@@ -51,6 +53,18 @@ export const CalculatorPage = () => {
       );
     }
   }
+
+  useEffect(() => {
+    const MONTH_IN_YEAR = 12;
+    const paymentInYear =
+      parseCurrencyToNumber(formik.values.propertyCost) /
+      parseCurrencyToNumber(formik.values.period);
+    const paymentInMonth = paymentInYear / MONTH_IN_YEAR;
+    const magicNumber = 124;
+    const ceil = Math.ceil(paymentInMonth - magicNumber);
+    formik.setFieldValue("monthlyPayment", ceil);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formik.values.period]);
 
   return (
     <div className="w-full h-[100%] pt-32 bg-[#161616] text-white flex justify-center overflow-hidden">

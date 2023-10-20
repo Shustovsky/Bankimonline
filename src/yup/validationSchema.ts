@@ -72,9 +72,10 @@ export const validationSchema = Yup.object().shape({
       "is-minimum-value",
       "Не может быть меньше минимального значения",
       function (value: string | undefined) {
+        const MIN_VALUE = 2654;
         if (value) {
           const numericValue = parseCurrencyToNumber(value);
-          return numericValue >= 2654;
+          return numericValue >= MIN_VALUE;
         }
       },
     )
@@ -83,8 +84,9 @@ export const validationSchema = Yup.object().shape({
       "Не может быть больше максимального значения",
       function (value: string | undefined) {
         if (value) {
+          const MAX_VALUE = 51130;
           const numericValue = parseCurrencyToNumber(value);
-          return numericValue <= 51130;
+          return numericValue <= MAX_VALUE;
         }
       },
     )
