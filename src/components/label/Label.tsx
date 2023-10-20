@@ -1,6 +1,6 @@
-import {Root as RadixLabelRoot} from '@radix-ui/react-label';
-import {clsx} from "clsx";
-import {Tooltip} from "../tooltip/Tooltip.tsx";
+import { Tooltip } from "../tooltip/Tooltip.tsx";
+import { Root as RadixLabelRoot } from "@radix-ui/react-label";
+import { clsx } from "clsx";
 
 interface LabelProps {
   htmlFor: string;
@@ -13,11 +13,10 @@ export const Label = (props: LabelProps) => {
   return (
     <RadixLabelRoot
       className={clsx("min-h-5 flex gap-[6px] text-xl", props.className)}
-      htmlFor={props.htmlFor}>
+      htmlFor={props.htmlFor}
+    >
       {props.text}
-      {props.tooltip &&
-        <Tooltip text={props.tooltip}/>
-      }
+      {props.tooltip && <Tooltip text={props.tooltip} />}
     </RadixLabelRoot>
-  )
-}
+  );
+};

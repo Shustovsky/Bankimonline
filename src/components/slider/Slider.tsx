@@ -1,8 +1,8 @@
-import * as RadixSlider from '@radix-ui/react-slider';
-import {NumberInput} from "../numberInput/NumberInput.tsx";
-import {Label} from "../label/Label.tsx";
-import {Alert, AlertProps} from "../alert/alert.tsx";
-import {parseCurrencyToNumber} from "../../utils/utils.tsx";
+import { parseCurrencyToNumber } from "../../utils/utils.tsx";
+import { Alert, AlertProps } from "../alert/alert.tsx";
+import { Label } from "../label/Label.tsx";
+import { NumberInput } from "../numberInput/NumberInput.tsx";
+import * as RadixSlider from "@radix-ui/react-slider";
 
 interface SliderProps {
   id: string;
@@ -16,18 +16,14 @@ interface SliderProps {
   step: number;
   tooltip?: string;
   alert?: AlertProps;
-  minMaxLabels?: { min: string, max: string };
+  minMaxLabels?: { min: string; max: string };
   error?: string | undefined | false;
 }
 
 export const Slider = (props: SliderProps) => {
   return (
     <div>
-      <Label
-        htmlFor={props.id}
-        text={props.label}
-        tooltip={props.tooltip}
-      />
+      <Label htmlFor={props.id} text={props.label} tooltip={props.tooltip} />
       <NumberInput
         name={props.name}
         value={props.value}
@@ -38,7 +34,6 @@ export const Slider = (props: SliderProps) => {
       />
       <RadixSlider.Root
         className="relative flex items-center select-none touch-none w-[325px] tablet:w-[363px] h-5 bottom-[5%]"
-        defaultValue={[50]}
         min={props.min}
         max={props.max}
         step={props.step}
@@ -50,7 +45,7 @@ export const Slider = (props: SliderProps) => {
         name={props.name}
       >
         <RadixSlider.Track className="relative grow rounded-full h-[3px]">
-          <RadixSlider.Range className="absolute bg-[#fbe54d] rounded-full h-full"/>
+          <RadixSlider.Range className="absolute bg-[#fbe54d] rounded-full h-full" />
         </RadixSlider.Track>
         <RadixSlider.Thumb
           className="block w-[12px] h-[12px] bg-[#fbe54d] rounded-[6px] focus:outline-none"
@@ -63,10 +58,10 @@ export const Slider = (props: SliderProps) => {
           <div>{props.max + " " + props.minMaxLabels.max}</div>
         </div>
       )}
-      {props.alert &&
-        <Alert text={props.alert.text} error={props.alert.error}/>
-      }
-      {props.error && <Alert text={props.error} error/>}
+      {props.alert && (
+        <Alert text={props.alert.text} error={props.alert.error} />
+      )}
+      {props.error && <Alert text={props.error} error />}
     </div>
   );
 };

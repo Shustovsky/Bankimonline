@@ -1,7 +1,6 @@
 import React from "react";
-import {ReactSVG} from "react-svg";
-import MagnifyingGlass from "../../../assets/icons/magnifyingGlass.svg"
-
+import { ReactSVG } from "react-svg";
+import MagnifyingGlass from "../../../assets/icons/magnifyingGlass.svg";
 
 interface DropdownSearchProps {
   searchValue: string;
@@ -19,8 +18,8 @@ export const DropdownSearch = (props: DropdownSearchProps) => {
         onChange={props.handleSearchChange}
       />
       <div className="absolute top-1/2 left-2 transform -translate-y-[5%]">
-        <ReactSVG src={MagnifyingGlass}/>
+        <ReactSVG src={MagnifyingGlass} />
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,11 +1,11 @@
 import {
-  Portal as RadixPortal,
+  Arrow as RadixArrow,
   Content as RadixContent,
-  Arrow as RadixArrow
+  Portal as RadixPortal,
 } from "@radix-ui/react-tooltip";
 
 interface TooltipContentProps {
-  text: string
+  text: string;
 }
 
 export const TooltipContent = (props: TooltipContentProps) => {
@@ -16,9 +16,9 @@ export const TooltipContent = (props: TooltipContentProps) => {
         sideOffset={5}
         align={"start"}
       >
-          {props.text}
-        <RadixArrow className="fill-[#41434E]"/>
+        {props.text}
+        <RadixArrow className="fill-[#41434E]" />
       </RadixContent>
     </RadixPortal>
-  )
-}
+  );
+};
