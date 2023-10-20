@@ -28,7 +28,6 @@ export const CalculatorPage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      
       credit(values);
     },
   });
