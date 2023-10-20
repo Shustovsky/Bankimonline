@@ -6,7 +6,7 @@ export const TooltipTrigger = () => {
   return (
     <RadixTrigger asChild>
       <button>
-        <ReactSVG src={info}/>
+        <ReactSVG src={info} className="fill-white"/>
       </button>
     </RadixTrigger>
   )

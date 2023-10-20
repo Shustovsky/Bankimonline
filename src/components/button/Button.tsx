@@ -1,3 +1,5 @@
+import {clsx} from "clsx";
+
 interface ButtonProps {
   value: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -7,7 +9,7 @@ interface ButtonProps {
 export const Button = (props: ButtonProps) => {
   return (
     <button
-      className="bg-[#2d2d2d] w-[278px] flex justify-center h-16 items-center rounded-lg text-center text-[#848484] text-[1.2rem]"
+      className={clsx("bg-[#2d2d2d] w-[278px] flex justify-center h-16 items-center rounded-lg text-center text-[#848484] text-[1.2rem]", props.className)}
       onClick={props.onClick}
       type="submit"
     >
