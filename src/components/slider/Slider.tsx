@@ -1,4 +1,4 @@
-import {Alert, AlertProps} from "../alert/alert.tsx";
+import { Alert, AlertProps } from "../alert/alert.tsx";
 import { Label } from "../label/Label.tsx";
 import { NumberInput } from "../numberInput/NumberInput.tsx";
 import * as RadixSlider from "@radix-ui/react-slider";
@@ -32,7 +32,11 @@ export const Slider = (props: SliderProps) => {
         value={props.value}
         id={props.id}
         icon={props.icon}
-        onChange={props.setValue}
+        onChange={(values) => {
+          if (values && !isNaN(values)) {
+            props.setValue(values);
+          }
+        }}
         className={props.error ? "border-[#E76143]" : ""}
       />
       <RadixSlider.Root

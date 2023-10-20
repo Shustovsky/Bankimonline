@@ -58,14 +58,18 @@ export const Dropdown = (props: DropdownProps) => {
             { ["border-[#E76143]"]: props.error },
           )}
         >
-          <Select.Value
-            aria-label={props.value}
-            placeholder={props.placeholder}
-          />
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+            <Select.Value
+              aria-label={props.value}
+              placeholder={props.placeholder}
+            />
+          </span>
           <Select.Icon
             className={clsx(
               "shrink-0",
-              isOpen ? "transform rotate-180 transition delay-800" : "transform rotate-0 transition delay-800",
+              isOpen
+                ? "transform rotate-180 transition delay-800"
+                : "transform rotate-0 transition delay-800",
             )}
           >
             <ReactSVG src={CaretDown} />

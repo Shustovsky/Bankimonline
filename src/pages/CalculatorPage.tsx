@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo } from "react";
 import { israeliCities } from "../assets/data/israeliCities.ts";
 import currencies from "../assets/icons/currencies.svg";
 import { Button } from "../components/button/Button.tsx";
@@ -8,15 +7,14 @@ import { Dropdown } from "../components/dropdown/Dropdown.tsx";
 import { NumberInput } from "../components/numberInput/NumberInput.tsx";
 import { Slider } from "../components/slider/Slider.tsx";
 import { HeadingLevel, Title } from "../components/title/Title.tsx";
-import { updateFormData } from "../store/reducers/formSlice.ts";
-import { RootState } from "../store/store.ts";
+import { MAX_PERIOD_CREDIT, MIN_PERIOD_CREDIT } from "../constant.ts";
+import { useAddCreditMutation } from "../store/credit.ts";
+import { calculateMonthPayment } from "../utils/calculate.ts";
 import { validationSchema } from "../yup/validationSchema.ts";
 import { useFormik } from "formik";
 
 export const CalculatorPage = () => {
-  const dispatch = useDispatch();
-  const formValues = useSelector((state: RootState) => state.form);
-
+  const [credit] = useAddCreditMutation();
   const formik = useFormik({
     initialValues: {
       propertyCost: 1000000,
@@ -30,9 +28,7 @@ export const CalculatorPage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      dispatch(updateFormData(values));
-      localStorage.setItem("calculatorData", JSON.stringify(values));
-      console.log(formValues, "redux");
+      credit(values);
     },
   });
 
@@ -40,11 +36,19 @@ export const CalculatorPage = () => {
     fieldName: string,
     value: string | number | undefined,
   ) => {
-    formik.setTouched({ [fieldName]: true });
+    formik.setTouched({ ...formik.touched, [fieldName]: true });
     formik.setFieldValue(fieldName, value);
   };
 
-  const newInitialPaymentMax = formik.values.propertyCost;
+  const initialPaymentMin = useMemo(
+    () => calculateMonthPayment(formik.values.propertyCost, MAX_PERIOD_CREDIT),
+    [formik.values.propertyCost],
+  );
+
+  const initialPaymentMax = useMemo(
+    () => calculateMonthPayment(formik.values.propertyCost, MIN_PERIOD_CREDIT),
+    [formik.values.propertyCost],
+  );
 
   useEffect(() => {
     if (formik.values.propertyCost > 0) {
@@ -55,12 +59,12 @@ export const CalculatorPage = () => {
   }, [formik.values.propertyCost]);
 
   useEffect(() => {
-    const MONTH_IN_YEAR = 12;
-    const paymentInYear = formik.values.propertyCost / formik.values.period;
-    const paymentInMonth = paymentInYear / MONTH_IN_YEAR;
-    const magicNumber = 124;
-    const ceil = Math.ceil(paymentInMonth - magicNumber);
-    formik.setFieldValue("monthlyPayment", ceil);
+    const monthPayment = calculateMonthPayment(
+      formik.values.propertyCost,
+      formik.values.period,
+    );
+
+    formik.setFieldValue("monthlyPayment", monthPayment);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.period]);
 
@@ -103,7 +107,7 @@ export const CalculatorPage = () => {
               setValue={(value) => handleSetValue("initialPayment", value)}
               icon={currencies}
               min={0}
-              max={newInitialPaymentMax}
+              max={formik.values.propertyCost}
               step={100}
               tooltip={`Основная квартира: у заемщика нет квартиры ставка финансирования.\nМаксимум до 75% \n\n Альтернативная квартира: Для заемщика квартира, которую он обязуется продать в течение двух лет ставка финансирования Максимум до 70% \n\n Вторая квартира или выше: у заемщика уже есть ставка финансирования квартиры. Максимум до 50%`}
               alert={{
@@ -156,7 +160,6 @@ export const CalculatorPage = () => {
                 "В ближайшие 3 месяца",
                 "В ближайшие 6 месяцев",
               ]}
-              searchable
               error={
                 formik.touched.timeRegistration &&
                 formik.errors.timeRegistration
@@ -190,8 +193,8 @@ export const CalculatorPage = () => {
               label="Cрок"
               value={formik.values.period}
               setValue={(value) => handleSetValue("period", value)}
-              min={4}
-              max={30}
+              min={MIN_PERIOD_CREDIT}
+              max={MAX_PERIOD_CREDIT}
               step={1}
               minMaxLabels={{ min: "года", max: "лет" }}
               error={formik.touched.period && formik.errors.period}
@@ -203,8 +206,8 @@ export const CalculatorPage = () => {
               value={formik.values.monthlyPayment}
               setValue={(value) => handleSetValue("monthlyPayment", value)}
               icon={currencies}
-              min={2654}
-              max={51130}
+              min={initialPaymentMin}
+              max={initialPaymentMax}
               step={1}
               minMaxLabels={{ min: "₪", max: "₪" }}
               alert={{

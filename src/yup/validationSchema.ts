@@ -1,9 +1,6 @@
-import { parseCurrencyToNumber } from "../utils/utils.tsx";
+import {MAX_COST_PROPERTY, MAX_PERIOD_CREDIT, MIN_PERIOD_CREDIT} from "../constant.ts";
+import { parseCurrencyToNumber } from "../utils/utils.ts";
 import * as Yup from "yup";
-
-const MAX_COST_PROPERTY = 10000000;
-const MIN_PERIOD_CREDIT = 4;
-const MAX_PERIOD_CREDIT = 30;
 
 export const validationSchema = Yup.object().shape({
   propertyCost: Yup.number()
@@ -33,30 +30,30 @@ export const validationSchema = Yup.object().shape({
   propertyOwn: Yup.string().required("Выберите ответ"),
   period: Yup.number()
     .min(MIN_PERIOD_CREDIT, "Cрок ипотеки не может быть меньше 4")
-    .max(30, "Cрок ипотеки не может превышать 30 лет")
+    .max(MAX_PERIOD_CREDIT, "Cрок ипотеки не может превышать 30 лет")
     .required("Выберите ответ"),
-  // monthlyPayment: Yup.string()
-  // .test(
-  //   "is-minimum-value",
-  //   "Не может быть меньше минимального значения",
-  //   function (value: string | undefined) {
-  //     const MIN_VALUE = 2654;
-  //     if (value) {
-  //       const numericValue = parseCurrencyToNumber(value);
-  //       return numericValue >= MIN_VALUE;
-  //     }
-  //   },
-  // )
-  // .test(
-  //   "is-maximum-value",
-  //   "Не может быть больше максимального значения",
-  //   function (value: string | undefined) {
-  //     if (value) {
-  //       const MAX_VALUE = 51130;
-  //       const numericValue = parseCurrencyToNumber(value);
-  //       return numericValue <= MAX_VALUE;
-  //     }
-  //   },
-  // )
-  // .required("Выберите ответ"),
+  monthlyPayment: Yup.string()
+    .test(
+      "is-minimum-value",
+      "Не может быть меньше минимального значения",
+      function (value: string | undefined) {
+        const MIN_VALUE = 2654;
+        if (value) {
+          const numericValue = parseCurrencyToNumber(value);
+          return numericValue >= MIN_VALUE;
+        }
+      },
+    )
+    .test(
+      "is-maximum-value",
+      "Не может быть больше максимального значения",
+      function (value: string | undefined) {
+        if (value) {
+          const MAX_VALUE = 51130;
+          const numericValue = parseCurrencyToNumber(value);
+          return numericValue <= MAX_VALUE;
+        }
+      },
+    )
+    .required("Выберите ответ"),
 });
